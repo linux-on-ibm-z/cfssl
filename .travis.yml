@@ -44,8 +44,12 @@ before_script:
       sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list';
       sudo apt-get update;
       sudo apt-get install -y postgresql-9.5;
+      echo "**********************************************changing uswr permission*****************"
       sudo sed -i '85s/peer/trust/' /etc/postgresql/9.5/main/pg_hba.conf;
+      sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
       sudo service postgresql restart;
+      sudo service postgresql status;
+      psql -c 'create database certdb_development;' -U postgres;
     fi
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
