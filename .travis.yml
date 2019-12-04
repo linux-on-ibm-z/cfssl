@@ -3,7 +3,8 @@ language: go
 
 matrix:
   include:
-    - go: 1.12.x
+    - arch: s390x
+      go: 1.12.x
     - go: 1.13.x
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
@@ -28,8 +29,7 @@ services:
 # git push myremote branchname:test-branchname
 branches:
   only:
-    - master
-    - /^test-.*$/
+    - s390x-travis
 
 before_script:
   - make bin/golint
