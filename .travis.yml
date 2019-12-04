@@ -37,10 +37,6 @@ before_script:
   - make bin/golint
   #fix postgreql in s390x environment
   - if [[ $(uname -m) == 's390x' ]]; then
-      echo "*******************Dummy**************";
-      sudo service postgresql restart;
-      sudo service postgresql status;
-      exit 0;
       sudo /etc/init.d/postgresql stop || true;
       sudo apt-get --purge remove postgresql-*;
       sudo rm -Rf /etc/postgresql /var/lib/postgresql;
@@ -48,7 +44,7 @@ before_script:
       sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list';
       sudo apt-get update;
       sudo apt-get install -y postgresql-9.5;
-      echo "**********************************************changing uswr permission*****************";
+      echo "**********************************************changing uswr permission*****************"
       sudo sed -i 's/peer/trust/g' /etc/postgresql/9.5/main/pg_hba.conf;
       sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
       sudo service postgresql restart;
