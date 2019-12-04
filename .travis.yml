@@ -37,15 +37,15 @@ before_script:
   - make bin/golint
   #fix postgreql in s390x environment
   - if [[ $(uname -m) == 's390x' ]]; then
-      sudo /etc/init.d/postgresql stop || true
-      sudo apt-get --purge remove postgresql-*
-      sudo rm -Rf /etc/postgresql /var/lib/postgresql
-      wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-      sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list'
-      sudo apt-get update
-      sudo apt-get install -y postgresql-9.5
-      sudo sed -i '85s/peer/trust/' /etc/postgresql/9.5/main/pg_hba.conf
-      sudo service postgresql restart
+      sudo /etc/init.d/postgresql stop || true;
+      sudo apt-get --purge remove postgresql-*;
+      sudo rm -Rf /etc/postgresql /var/lib/postgresql;
+      wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ;
+      sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list';
+      sudo apt-get update;
+      sudo apt-get install -y postgresql-9.5;
+      sudo sed -i '85s/peer/trust/' /etc/postgresql/9.5/main/pg_hba.conf;
+      sudo service postgresql restart;
     fi
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
