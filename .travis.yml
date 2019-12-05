@@ -47,9 +47,8 @@ before_script:
       sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
       sudo service postgresql restart;
       sudo service postgresql status;
+      sudo -u postgres createuser travis
       psql -c 'create database test_pk_development;' -U postgres;
-    else
-      sudo cat /etc/postgresql/9.6/main/pg_hba.conf;
     fi
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
