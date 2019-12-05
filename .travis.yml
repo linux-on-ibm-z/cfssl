@@ -1,9 +1,10 @@
 sudo: false
-language: go
+language: generic
 
 matrix:
   include:
-    - go: 1.12.x
+    - arch: s390x
+      go: 1.12.x 
     - go: 1.13.x
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
@@ -19,7 +20,7 @@ install:
 # Used by the certdb tests
 services:
   - mysql
-  - postgresql
+  - postgresql-9.5
 
 # Only build pull requests, pushes to the master branch, and branches
 # starting with `test-`. This is a convenient way to push branches to
