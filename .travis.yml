@@ -17,14 +17,13 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - golang
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 
 # Used by the certdb tests
 services:
   - mysql
-  - postgresql
+  - postgresql "9.5"
 
 # Only build pull requests, pushes to the master branch, and branches
 # starting with `test-`. This is a convenient way to push branches to
