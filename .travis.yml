@@ -38,17 +38,32 @@ before_script:
   - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
   - sudo service postgresql restart
   - sleep 1
-  - psql -c 'create database test_development;' -U postgres;
+  - psql -c 'create database certdb_development;' -U postgres;
   - make bin/golint
+  #fix postgreql in s390x environment
+  - if [[ $(uname -m) == 's390x' ]]; then
+      sudo apt-get --purge remove postgresql-*;
+      sudo rm -Rf /etc/postgresql /var/lib/postgresql;
+      wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ;
+      sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list';
+      sudo apt-get update;
+      sudo apt-get install -y postgresql-9.5;
+      sudo sed -i 's/peer/trust/g' /etc/postgresql/9.5/main/pg_hba.conf;
+      sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf;
+      sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
+      sudo service postgresql restart;
+      sleep 30s;
+      sudo service postgresql status;
+    fi
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
   # > The NO_ZERO_DATE mode affects whether the server permits '0000-00-00' as a valid date.
   # https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_no_zero_date
   - if [[ $(uname -s) == 'Linux' ]]; then
       make bin/goose;
-      echo "***************************************88creating database***************************************";
+      echo "***************************************88creating database***************************************"
       psql -c 'create database certdb_development;' -U postgres;
-      echo "***************************************database created with postgres user***************************************";
+      echo "***************************************database created with postgres user***************************************"
       ./bin/goose -path certdb/pg up;
       mysql -e 'create database certdb_development;' -u root;
       mysql -e 'SET global sql_mode = 0;' -u root;
