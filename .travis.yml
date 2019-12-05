@@ -38,6 +38,7 @@ before_script:
   - go version
   - sudo service postgresql restart
   - sleep 1
+  - sudo cat /etc/postgresql/9.5/main/pg_hba.conf
   - psql -c 'create database certdb_tests;' -U postgres;
   - make bin/golint
   # Setup DBs + run migrations
