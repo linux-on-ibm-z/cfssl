@@ -32,6 +32,7 @@ branches:
     - s390x-travis-generic
 
 before_script:
+  - psql -c 'create database certdb_development;' -U postgres;
   - make bin/golint
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
