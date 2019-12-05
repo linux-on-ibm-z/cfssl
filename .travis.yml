@@ -36,7 +36,6 @@ before_script:
   - make bin/golint
   #fix postgreql in s390x environment
   - if [[ $(uname -m) == 's390x' ]]; then
-      sudo /etc/init.d/postgresql stop || true;
       sudo apt-get --purge remove postgresql-*;
       sudo rm -Rf /etc/postgresql /var/lib/postgresql;
       wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ;
@@ -44,9 +43,10 @@ before_script:
       sudo apt-get update;
       sudo apt-get install -y postgresql-9.5;
       sudo sed -i 's/peer/trust/g' /etc/postgresql/9.5/main/pg_hba.conf;
+      sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
       sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
       sudo service postgresql restart;
-      sudo grep trust /etc/postgresql/9.5/main/pg_hba.conf;
+      sleep 30s
       sudo service postgresql status;
     fi
   # Setup DBs + run migrations
@@ -55,7 +55,9 @@ before_script:
   # https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_no_zero_date
   - if [[ $(uname -s) == 'Linux' ]]; then
       make bin/goose;
+      echo "***************************************88creating database***************************************"
       psql -c 'create database certdb_development;' -U postgres;
+      echo "***************************************database created with postgres user***************************************"
       ./bin/goose -path certdb/pg up;
       mysql -e 'create database certdb_development;' -u root;
       mysql -e 'SET global sql_mode = 0;' -u root;
