@@ -29,8 +29,7 @@ services:
 # git push myremote branchname:test-branchname
 branches:
   only:
-    - master
-    - /^test-.*$/
+    - s390x-travis-generic
 
 before_script:
   - make bin/golint
