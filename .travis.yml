@@ -5,7 +5,10 @@ matrix:
   include:
     - arch: s390x
       go: 1.12.x 
+    - arch: s390x
+      go: 1.13.x
     - go: 1.13.x
+    - go: 1.12.x
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
 addons:
@@ -14,7 +17,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - go
+    - golang
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 
@@ -33,10 +36,7 @@ branches:
     - s390x-travis-generic
 
 before_script:
-  - sudo service postgresql restart
-  - sleep 1
-  - psql -c 'create database certdb_development;' -U postgres;
-  - make bin/golint
+  - go version
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
   # > The NO_ZERO_DATE mode affects whether the server permits '0000-00-00' as a valid date.
