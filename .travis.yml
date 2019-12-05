@@ -35,7 +35,7 @@ branches:
     - s390x-travis
 
 before_script:
-  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
+  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/9.5/main/pg_hba.conf
   - sudo service postgresql restart
   - sleep 1
   - psql -c 'create database test_development;' -U postgres;
