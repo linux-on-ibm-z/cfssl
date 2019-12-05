@@ -4,7 +4,7 @@ language: generic
 matrix:
   include:
     - arch: s390x
-      go: 1.13.x
+      go: 1.12.x
 
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
@@ -33,7 +33,7 @@ branches:
     - s390x-travis-generic
 
 before_script:
-  - wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Go/1.13/build_go.sh 
+  - wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Go/1.12.5/build_go.sh
   - bash build_go.sh 
   - go version
   - sudo service postgresql restart
