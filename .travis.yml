@@ -24,7 +24,7 @@ install:
 # Used by the certdb tests
 services:
   - mysql
-  - postgresql-9.5
+  - postgresql
 
 # Only build pull requests, pushes to the master branch, and branches
 # starting with `test-`. This is a convenient way to push branches to
@@ -37,6 +37,10 @@ branches:
 
 before_script:
   - go version
+  - sudo service postgresql restart
+  - sleep 1
+  - psql -c 'create database certdb_tests;' -U postgres;
+  - make bin/golint
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
   # > The NO_ZERO_DATE mode affects whether the server permits '0000-00-00' as a valid date.
