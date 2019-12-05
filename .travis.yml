@@ -47,7 +47,7 @@ before_script:
       sudo cat /etc/postgresql/9.5/main/pg_hba.conf ;
       sudo service postgresql restart;
       sudo service postgresql status;
-      sudo -u postgres createuser travis
+      sudo -u postgres createuser travis;
       psql -c 'create database test_pk_development;' -U postgres;
     fi
   # Setup DBs + run migrations
