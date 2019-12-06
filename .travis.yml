@@ -21,7 +21,7 @@ install:
 # Used by the certdb tests
 services:
   - mysql
-  - postgresql-9.5
+  - postgresql "9.5"
 
 # Only build pull requests, pushes to the master branch, and branches
 # starting with `test-`. This is a convenient way to push branches to
