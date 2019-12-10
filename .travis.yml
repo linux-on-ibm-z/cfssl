@@ -21,7 +21,7 @@ install:
 # Used by the certdb tests
 services:
   - mysql
-  - postgresql "9.5"
+  - postgresql
 
 # Only build pull requests, pushes to the master branch, and branches
 # starting with `test-`. This is a convenient way to push branches to
@@ -36,9 +36,6 @@ before_script:
   - wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Go/1.12.5/build_go.sh
   - bash build_go.sh -v 1.13.4
   - go version
-  - sudo service postgresql restart
-  - sleep 1
-  - sudo cat /etc/postgresql/9.5/main/pg_hba.conf
   - psql -c 'create database certdb_tests;' -U postgres;
   - make bin/golint
   # Setup DBs + run migrations
