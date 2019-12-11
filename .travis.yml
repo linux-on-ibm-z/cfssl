@@ -18,7 +18,6 @@ addons:
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 
-
 # Used by the certdb tests
 services:
   - mysql
