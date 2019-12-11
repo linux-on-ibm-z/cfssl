@@ -8,13 +8,11 @@ matrix:
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
 addons:
-  postgresql: "9.5"
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - postgresql-9.5
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 
@@ -36,12 +34,12 @@ before_script:
   - make bin/golint
   #fix postgreql in s390x environment
   - if [[ $(uname -m) == 's390x' ]]; then
-      #sudo apt-get --purge remove postgresql-*;
-      #sudo rm -Rf /etc/postgresql /var/lib/postgresql;
-      #sudo apt-get update;
-      #sudo apt-get install -y postgresql-9.5;
-      #sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/9.5/main/pg_hba.conf;
-      #sudo service postgresql restart;
+      sudo apt-get --purge remove postgresql-*;
+      sudo rm -Rf /etc/postgresql /var/lib/postgresql;
+      sudo apt-get update;
+      sudo apt-get install -y postgresql-9.5;
+      sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/9.5/main/pg_hba.conf;
+      sudo service postgresql restart;
       sudo -u postgres createuser travis;
     fi
   # Setup DBs + run migrations
