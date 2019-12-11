@@ -15,7 +15,7 @@ addons:
     packages:
     - g++-4.8
     - postgresql-9.5
-    
+
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 
@@ -37,7 +37,7 @@ before_script:
   - make bin/golint
   #fix postgreql in s390x environment
   - if [[ $(uname -m) == 's390x' ]]; then
-      sudo -u postgres createuser travis;
+      sudo service postgresql restart;
     fi
   # Setup DBs + run migrations
   # The sql_mode adjustment is to remove a sql_mode that was added in MySQL 5.7, this mode applies a rule that does:
