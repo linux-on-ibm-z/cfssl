@@ -8,7 +8,6 @@ matrix:
 
 # Install g++-4.8 to support std=c++11 for github.com/google/certificate-transparency/go/merkletree
 addons:
-  postgresql: "9.5"
   apt:
     sources:
     - ubuntu-toolchain-r-test
