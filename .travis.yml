@@ -32,6 +32,7 @@ branches:
   only:
     - s390x-travis-generic
 
+
 before_script:
   - wget https://raw.githubusercontent.com/linux-on-ibm-z/scripts/master/Go/1.12.5/build_go.sh
   - bash build_go.sh -v 1.13.4
